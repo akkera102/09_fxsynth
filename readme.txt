@@ -4,10 +4,10 @@ FX Synth for Arduboy
 ## Description
 FX Synth is Gamebuino sound effect maker.
 I porting Arduboy. and I maked simple Sound function.
-You can use this program. but It can use ONLY ARDUBOY LIBRARY2.
+You can use your game. but It can use ONLY ARDUBOY LIBRARY2.
 
 ## How to Use
-effect maker is simple. parameter use only 8.
+effect maker is simple. parameter is only 8.
 You make array variable.
 
 example/example.ino.
