@@ -18,24 +18,24 @@ byte soundno;
 
 byte soundfx[14][8] = {
   // PAQMAN
-  {0,30,59,1,7,0,2,5},  // 0  = backgroundsound 1 (channel 0)
-  {0,35,57,1,7,0,2,5},  // 1  = backgroundsound 2 (channel 0)
-  {0,6,62,1,0,0,2,5},   // 2  = frightened backgroundsound (channel 0)
-  {1,11,66,1,0,0,7,3},  // 3  = eat dots 1 (channel 1)
-  {1,44,50,1,0,0,7,3},  // 4  = eat dots 2 (channel 1)
-  {0,0,2,1,0,0,7,5},    // 5  = eat ghost (channel 1)
-  {0,0,108,1,0,0,7,5},  // 6  = eat fruit (channel 1)
-  {0,54,44,1,0,0,7,50}, // 7  = dead (channel 1)
+  {0,30,59,1,7,0,2,5},  // 0  = backgroundsound 1
+  {0,35,57,1,7,0,2,5},  // 1  = backgroundsound 2
+  {0,6,62,1,0,0,2,5},   // 2  = frightened backgroundsound
+  {1,11,66,1,0,0,7,3},  // 3  = eat dots 1
+  {1,44,50,1,0,0,7,3},  // 4  = eat dots 2
+  {0,0,2,1,0,0,7,5},    // 5  = eat ghost
+  {0,0,108,1,0,0,7,5},  // 6  = eat fruit
+  {0,54,44,1,0,0,7,50}, // 7  = dead
 
   // INVADERS
-  {1,57,57,1,1,1,5,6},  // 8  = sound shoot (channel 0)
-  {0,0,68,1,0,0,7,4},   // 9  = sound invader hit (channel 0)
-  {1,15,57,1,1,2,7,15}, // 10 = sound player hit (channel 2)
-  {0,10,60,1,0,0,7,6},  // 11 = sound saucer (channel 0)
-  {0,5,58,0,1,5,5,2},   // 12 = sound invaders 1 (channel 1)
-  {0,4,58,0,1,5,5,2},   // 13 = sound invaders 2 (channel 1)
-//  {0,2,58,0,1,5,5,2}, // 14 = sound invaders 3 (channel 1)
-//  {0,1,58,0,1,5,5,2}, // 15 = sound invaders 4 (channel 1)
+  {1,57,57,1,1,1,5,6},  // 8  = sound shoot
+  {0,0,68,1,0,0,7,4},   // 9  = sound invader hit
+  {1,15,57,1,1,2,7,15}, // 10 = sound player hit
+  {0,10,60,1,0,0,7,6},  // 11 = sound saucer
+  {0,5,58,0,1,5,5,2},   // 12 = sound invaders 1
+  {0,4,58,0,1,5,5,2},   // 13 = sound invaders 2
+//  {0,2,58,0,1,5,5,2}, // 14 = sound invaders 3
+//  {0,1,58,0,1,5,5,2}, // 15 = sound invaders 4
 };
 
 //----------------------------------------------------------------------------    
