@@ -25,8 +25,6 @@ PROGMEM const uint8_t soundfx[4][8] = {
 	{0, 10, 60, 1, 0, 0, 7,  6},
 };
 
-setup, loop function.
-
 void setup()
 {
 	ab.begin();
@@ -56,7 +54,7 @@ void loop()
 	FxUpdate(); // <---
 }
 
-Don't forget FxInit, FxUpdate.
+Don't forget FxInit(), FxUpdate().
 
 
 ## Original Posts
