@@ -20,7 +20,12 @@ PROGMEM const uint8_t soundfx[4][8] = {
 //---------------------------------------------------------------------------
 void setup()
 {
-	ab.begin();
+//	ab.begin();
+
+	ab.boot();
+	ab.blank();
+	ab.flashlight();
+	ab.audio.begin();
 
 	FxInit();
 }

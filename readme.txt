@@ -70,6 +70,6 @@ LGPL
 
 
 ## History
-v1.01 2016/12/10    first version
+v1.00 2016/12/10    first version
 
 
