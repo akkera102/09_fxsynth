@@ -137,7 +137,6 @@ void FxUpdate()
 		outputVolume += commandsCounter / volumeStepDuration * volumeStepSize;
 	}
 
-	// tremolo
 	if(tremoloStepDuration)
 	{
 		outputVolume += ((commandsCounter / tremoloStepDuration) % 2) * tremoloStepSize;
