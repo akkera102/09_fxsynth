@@ -4,7 +4,6 @@
 #include <avr/pgmspace.h>
 
 //---------------------------------------------------------------------------
-#define FX_FPS						60
 
 
 //---------------------------------------------------------------------------
@@ -13,6 +12,8 @@ void FxPlay(uint8_t* d);
 void FxStop();
 void FxUpdate();
 void FxOutput();
+
+void FxSetFps(uint8_t fps);
 
 
 #endif

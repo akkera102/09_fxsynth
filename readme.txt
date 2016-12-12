@@ -8,9 +8,7 @@ You can use your game. but It can use ONLY ARDUBOY LIBRARY2.
 
 ## How to Use
 effect maker is simple. parameter is only 8.
-You make array variable.
-
-example/example.ino.
+You make array variable. see. example/example.png and example.ino.
 
 #include <Arduboy2.h>
 #include "fx.h"

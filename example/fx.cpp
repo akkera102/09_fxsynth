@@ -3,6 +3,7 @@
 
 
 //---------------------------------------------------------------------------
+#define FX_FPS						60
 #define FX_MAX_PITCH				36
 #define FX_MAX_VOLUME				4
 #define FX_INSTRUMENT_TYPE_SQUARE	0
@@ -21,13 +22,11 @@ uint8_t    noteDuration;
 
 uint8_t    instrumentType;
 uint8_t    instrumentLength;		// number of steps in the instrument
-uint16_t   instrumentCursor;		// which step is being played
-uint8_t    instrumentNextChange;	// how many frames before the next step
 
 uint8_t    arpeggioStepDuration;
 int8_t     arpeggioStepSize;
-int8_t     volumeSlideStepDuration;
-int8_t     volumeSlideStepSize;
+int8_t     volumeStepDuration;
+int8_t     volumeStepSize;
 uint8_t    tremoloStepDuration;
 int8_t     tremoloStepSize;
 
@@ -41,18 +40,14 @@ int8_t     commandsCounter;
 uint8_t    prescaler;
 uint8_t    _rand;
 
-int8_t     outputVolume;
-uint8_t    outputPitch;
-
 //---------------------------------------------------------------------------
 void FxInit()
 {
 	_rand = 1;
-	prescaler = max(FX_FPS / 20, 1);
-
-	pinMode(5, OUTPUT);
+	FxSetFps(FX_FPS);
 
 	 // lazy version to get the right register settings for PWM (hem)
+	pinMode(5, OUTPUT);
 	analogWrite(5, 1);
 
 	// set timer 3 prescaler to 1 -> 30kHz PWM on pin 5
@@ -81,8 +76,8 @@ void FxPlay(uint8_t* d)
 	instrumentLength  = prescaler;
 
 	// set volume
-	volumeSlideStepDuration =  pgm_read_byte(d + 5) * prescaler;
-	volumeSlideStepSize     = -pgm_read_byte(d + 4);
+	volumeStepDuration =  pgm_read_byte(d + 5) * prescaler;
+	volumeStepSize     = -pgm_read_byte(d + 4);
 
 	// set pitch
 	arpeggioStepDuration = pgm_read_byte(d + 3) * prescaler;
@@ -92,10 +87,6 @@ void FxPlay(uint8_t* d)
 	noteDuration = pgm_read_byte(d + 7) * prescaler;
 	notePitch    = pgm_read_byte(d + 1);
 
-	// reinit vars
-	instrumentCursor     = 0;
-	instrumentNextChange = 0;
-
 	// play note
 	notePlaying     = true;
 	_chanState      = true;
@@ -104,17 +95,10 @@ void FxPlay(uint8_t* d)
 //---------------------------------------------------------------------------
 void FxStop()
 {
-	notePlaying = false;
-
-	// counters
-	noteDuration     = 0;
-	instrumentCursor = 0;
-	commandsCounter  = 0;
-
-	// output
+	notePlaying       = false;
+	_chanState        = false;
 	_chanOutput       = 0;
 	_chanOutputVolume = 0;
-	_chanState        = false;
 
 	FxOutput();
 }
@@ -134,36 +118,23 @@ void FxUpdate()
 	noteDuration--;
 
 
-	if(instrumentNextChange == 0)
-	{
-		instrumentNextChange = 0x3F * prescaler;	// 0x3F = stepDuration
-
-		if(++instrumentCursor >= instrumentLength)
-		{
-			instrumentCursor = 0;
-		}
-	}
-	instrumentNextChange--;
-
-
 	commandsCounter++;
 
 	// UPDATE VALUES
 
 	// pitch
-	outputPitch = notePitch;
+	uint8_t outputPitch = notePitch;
 	if(arpeggioStepDuration)
 	{
 		outputPitch += commandsCounter / arpeggioStepDuration * arpeggioStepSize;
 	}
 	outputPitch = (outputPitch + FX_MAX_PITCH) % FX_MAX_PITCH;	// wrap
 
-
 	// volume
-	outputVolume = noteVolume;
-	if(volumeSlideStepDuration)
+	int8_t outputVolume = noteVolume;
+	if(volumeStepDuration)
 	{
-		outputVolume += commandsCounter / volumeSlideStepDuration * volumeSlideStepSize;
+		outputVolume += commandsCounter / volumeStepDuration * volumeStepSize;
 	}
 
 	// tremolo
@@ -181,22 +152,26 @@ void FxUpdate()
 //---------------------------------------------------------------------------
 ISR(TIMER1_COMPA_vect)
 {
-	if(_chanOutputVolume)
+	if(_chanOutputVolume == 0)
 	{
-		if(++_chanCount >= _chanHalfPeriod)
-		{
-			_chanCount = 0;
-			_chanState = !_chanState;
-
-			if(instrumentType == FX_INSTRUMENT_TYPE_NOISE)
-			{
-				_rand = 67 * _rand + 71;
-				_chanOutput = _rand % _chanOutputVolume;
-			}
-
-			FxOutput();
-		}
+		return;
 	}
+
+	if(++_chanCount < _chanHalfPeriod)
+	{
+		return;
+	}
+	_chanCount = 0;
+
+	if(instrumentType == FX_INSTRUMENT_TYPE_NOISE)
+	{
+		_rand = 67 * _rand + 71;
+		_chanOutput = _rand % _chanOutputVolume;
+	}
+
+	_chanState = !_chanState;
+
+	FxOutput();
 }
 //---------------------------------------------------------------------------
 void FxOutput()
@@ -209,4 +184,9 @@ void FxOutput()
 	}
 
 	OCR3A = output;
+}
+//---------------------------------------------------------------------------
+void FxSetFps(uint8_t fps)
+{
+	prescaler = max(fps / 20, 1);
 }
