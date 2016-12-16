@@ -37,7 +37,7 @@ void loop()
 		return;
 	}
 
-	if(ab.justPressed(LEFT_BUTTON))
+	if(ab.justPressed(RIGHT_BUTTON))
 	{
 		FxPlay(soundfx[0]);
 	}
