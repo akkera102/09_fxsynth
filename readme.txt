@@ -16,11 +16,11 @@ You make array variable. see. example/example.png and example.ino.
 Arduboy2 ab;
 
 PROGMEM const uint8_t soundfx[4][8] = {
-	// INVADERS
-	{1, 57, 57, 1, 1, 1, 5,  6},
-	{0,  0, 68, 1, 0, 0, 7,  4}, // <---
-	{1, 15, 57, 1, 1, 2, 7, 15},
-	{0, 10, 60, 1, 0, 0, 7,  6},
+	// PAQMAN
+	{0, 30, 59, 1, 7, 0, 2, 5},  // 0  = backgroundsound 1
+	{0, 35, 57, 1, 7, 0, 2, 5},  // 1  = backgroundsound 2
+	{0,  6, 62, 1, 0, 0, 2, 5},  // 2  = frightened backgroundsound
+	{1, 11, 66, 1, 0, 0, 7, 3},  // 3  = eat dots 1
 };
 
 void setup()
@@ -39,7 +39,7 @@ void loop()
 
 	if(ab.justPressed(LEFT_BUTTON))
 	{
-		FxPlay(soundfx[1]); // <---
+		FxPlay(soundfx[0]);
 	}
 
 	ab.clear();
