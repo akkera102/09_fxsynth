@@ -39,7 +39,7 @@ void loop()
 
 	if(ab.justPressed(LEFT_BUTTON))
 	{
-		FxPlay(soundfx[1]);
+		FxPlay(soundfx[1]); // <---
 	}
 
 	ab.clear();
@@ -55,6 +55,10 @@ void loop()
 Don't forget FxInit(), FxUpdate().
 
 
+## Editor
+UP + DOWN button is SAVE.
+
+
 ## Original Posts
 http://gamebuino.com/forum/viewtopic.php?f=17&t=1018
 
@@ -68,6 +72,7 @@ LGPL
 
 
 ## History
+v1.10 2016/12/16    remake editor. add save function
 v1.00 2016/12/10    first version
 
 
