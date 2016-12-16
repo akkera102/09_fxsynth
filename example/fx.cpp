@@ -9,36 +9,34 @@
 #define FX_INSTRUMENT_TYPE_SQUARE	0
 #define FX_INSTRUMENT_TYPE_NOISE	1
 
-PROGMEM const uint8_t halfPeriods[FX_MAX_PITCH] = {
+PROGMEM const static uint8_t halfPeriods[FX_MAX_PITCH] = {
 	246,232,219,207,195,184,174,164,155,146,138,130,123,116,110,104,
 	98,92,87,82,78,73,69,65,62,58,55,52,49,46,44,41,39,37,35,33
 };
 
 //---------------------------------------------------------------------------
-boolean    notePlaying;
-int8_t     noteVolume;
-uint8_t    notePitch;
-uint8_t    noteDuration;
+static boolean notePlaying;
+static int8_t  noteVolume;
+static uint8_t notePitch;
+static uint8_t noteDuration;
 
-uint8_t    instrumentType;
-uint8_t    instrumentLength;		// number of steps in the instrument
+static uint8_t instrumentType;
+static uint8_t instrumentLength;		// number of steps in the instrument
 
-uint8_t    arpeggioStepDuration;
-int8_t     arpeggioStepSize;
-int8_t     volumeStepDuration;
-int8_t     volumeStepSize;
-uint8_t    tremoloStepDuration;
-int8_t     tremoloStepSize;
+static uint8_t arpeggioStepDuration;
+static int8_t  arpeggioStepSize;
+static int8_t  volumeStepDuration;
+static int8_t  volumeStepSize;
 
-boolean    _chanState;				// if the waveform is currently high or low
-uint8_t    _chanOutputVolume;		// amplitude of the outputted waveform
-uint8_t    _chanOutput;				// current value of the outputted waveform
-uint8_t    _chanCount;				// counts until the next change of the waveform
-uint8_t    _chanHalfPeriod;			// duration of half the period of the waveform
+static boolean _chanState;				// if the waveform is currently high or low
+static uint8_t _chanOutputVolume;		// amplitude of the outputted waveform
+static uint8_t _chanOutput;				// current value of the outputted waveform
+static uint8_t _chanCount;				// counts until the next change of the waveform
+static uint8_t _chanHalfPeriod;			// duration of half the period of the waveform
 
-int8_t     commandsCounter;
-uint8_t    prescaler;
-uint8_t    _rand;
+static int8_t  commandsCounter;
+static uint8_t  prescaler;
+static uint8_t _rand;
 
 //---------------------------------------------------------------------------
 void FxInit()
@@ -139,11 +137,6 @@ void FxUpdate()
 	if(volumeStepDuration)
 	{
 		outputVolume += commandsCounter / volumeStepDuration * volumeStepSize;
-	}
-
-	if(tremoloStepDuration)
-	{
-		outputVolume += ((commandsCounter / tremoloStepDuration) % 2) * tremoloStepSize;
 	}
 	outputVolume = constrain(outputVolume, 0, 9);
 
