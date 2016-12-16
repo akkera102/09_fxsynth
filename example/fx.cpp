@@ -46,8 +46,10 @@ void FxInit()
 	_rand = 1;
 	FxSetFps(FX_FPS);
 
-	 // lazy version to get the right register settings for PWM (hem)
 	pinMode(5, OUTPUT);
+	pinMode(13, OUTPUT);
+
+	 // lazy version to get the right register settings for PWM (hem)
 	analogWrite(5, 1);
 
 	// set timer 3 prescaler to 1 -> 30kHz PWM on pin 5
